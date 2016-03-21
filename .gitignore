@@ -1,0 +1,9 @@
+*.iml
+
+## Directory-based project format:
+.idea/
+
+# sbt specific
+.history
+target/
+src_managed/
