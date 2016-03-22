@@ -4,17 +4,30 @@ import org.scalatest._
 
 class BoardTest extends FlatSpec with Matchers {
 
-  "A Board" should "have initial state of empty spaces with size^2" in {
-    val board = Board(3)
+  "A Board state" should "be a vector of empty spaces with specified size^2" in {
+    val size = 3
+    val board = Board(size)
 
-    board.getCellCount() should equal(9)
+    board.cells should equal(Vector("_","_","_","_","_","_","_","_","_"))
+    board.cells.size should equal((size * size))
   }
 
-  it should "place moves and get moves" in {
+  it should "insert token \"X\" on odd moves" in {
     val board = Board(3)
+    val input = 4
 
-    board.place(1, "X")
+    board.place(input)
 
-    assert(board.getMove(1) == "X")
+    board getMove input should equal("X")
+  }
+
+  it should "insert token \"O\" on even moves" in {
+    val board = Board(3)
+    val moveInput = 5
+
+    board.place(4)
+    board.place(moveInput)
+
+    board getMove moveInput should equal("O")
   }
 }
