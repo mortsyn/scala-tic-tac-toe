@@ -6,10 +6,11 @@ class BoardTest extends FlatSpec with Matchers {
 
   "A Board state" should "be a vector of empty spaces with specified size^2" in {
     val size = 3
+    val expectedBoard = Vector(Vector("_","_","_"),Vector("_","_","_"),Vector("_","_","_"))
     val board = Board(size)
 
-    board.cells should equal(Vector("_","_","_","_","_","_","_","_","_"))
-    board.cells.size should equal((size * size))
+    board.getState.size should equal(3)
+    board.getState.toIndexedSeq should equal(expectedBoard)
   }
 
   it should "insert token \"X\" on odd moves" in {
