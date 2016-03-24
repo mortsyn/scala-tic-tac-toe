@@ -2,33 +2,105 @@ package tictactoe
 
 import org.scalatest._
 
-class BoardTest extends FlatSpec with Matchers {
+class BoardTest extends FunSpec with Matchers {
 
-  "A Board state" should "be a vector of empty spaces with specified size^2" in {
-    val size = 3
-    val expectedBoard = Vector(Vector("_","_","_"),Vector("_","_","_"),Vector("_","_","_"))
-    val board = Board(size)
+  def makeMovesInSequence(board: Board, ints: Vector[Int]) = for(move <- ints) board.place(move)
 
-    board.getState.size should equal(3)
-    board.getState.toIndexedSeq should equal(expectedBoard)
-  }
+  describe("a game board") {
 
-  it should "insert token \"X\" on odd moves" in {
-    val board = Board(3)
-    val input = 4
+    it ("should be a vector of empty spaces with specified size^2") {
+      val size = 3
+      val expectedBoard = Vector(Vector("_","_","_"),Vector("_","_","_"),Vector("_","_","_"))
+      val board = Board(size)
 
-    board.place(input)
+      board.getState.size should equal(3)
+      board.getState.toIndexedSeq should equal(expectedBoard)
+    }
 
-    board getMove input should equal("X")
-  }
+    it("should insert token \"X\" on odd moves") {
+      val board = Board(3)
+      val input = 4
 
-  it should "insert token \"O\" on even moves" in {
-    val board = Board(3)
-    val moveInput = 5
+      board.place(input)
 
-    board.place(4)
-    board.place(moveInput)
+      board getMove input should equal("X")
+    }
 
-    board getMove moveInput should equal("O")
+    it("should insert token \"O\" on even moves") {
+      val board = Board(3)
+      val moveInput = 5
+
+      board.place(4)
+      board.place(moveInput)
+
+      board getMove moveInput should equal("O")
+    }
+
+    describe("game winning conditions") {
+
+
+      it("should be false when there is a fresh board") {
+        val board = new Board(3)
+
+        assert(board.hasWinner("X", new Board(3)) == false)
+      }
+
+      it("should be false whenever the game is in progress") {
+        val board = new Board(3)
+
+        makeMovesInSequence(board, Vector(0, 2, 5, 8))
+
+        board.hasWinner("X", board) should equal(false)
+      }
+
+      it("should be true when there is a horizontal match for \"X\"") {
+        val board = new Board()
+
+        makeMovesInSequence(board, Vector(0, 4, 1, 5, 2))
+
+        board.hasWinner("X", board) should equal(true)
+      }
+
+      it("should be true when there is a horizontal match for \"O\"") {
+        val board = new Board()
+
+        makeMovesInSequence(board, Vector(0, 3, 7, 4, 2, 5))
+
+        board.hasWinner("O", board) should equal(true)
+      }
+
+      it("should be true if there is a vertical match for \"X\"") {
+        val board = new Board()
+
+        makeMovesInSequence(board, Vector(0, 4, 3, 7, 6))
+
+        board.hasWinner("X", board) should equal(true)
+      }
+
+      it("should be true if there is a vertical match for \"O\"") {
+        val board = new Board()
+
+        makeMovesInSequence(board, Vector(0, 2, 1, 5, 6, 8))
+
+        board.hasWinner("O", board) should equal(true)
+      }
+
+      it("should be true if there is a left diagonal match for \"X\"") {
+        val board = new Board()
+
+        makeMovesInSequence(board, Vector(0, 2, 4, 3, 8))
+
+        board.hasWinner("X", board) should equal(true)
+      }
+
+      it("should be true if there is a right diagonal match for \"O\"") {
+        val board = new Board()
+
+        makeMovesInSequence(board, Vector(0, 2, 1, 4, 5, 6))
+
+        board.hasWinner("O", board) should equal(true)
+      }
+    }
+
   }
 }
