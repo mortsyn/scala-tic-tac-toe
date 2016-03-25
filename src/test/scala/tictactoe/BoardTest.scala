@@ -22,13 +22,13 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
         Board(3).currentPlayerMark should equal(X)
       }
 
-      it("should insert token \"X\" on odd moves") {
+      it("should insert token X on odd moves") {
         val move = 2
 
         Board(3).play(move).state apply move should equal(X)
       }
 
-      it("should insert token \"O\" on even moves") {
+      it("should insert token O on even moves") {
         val board = createBoardStateFromMoves(Vector(3, 4))
 
         board.state apply 4 should equal(O)
@@ -71,37 +71,37 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
           board.isWinner(X) should equal(false)
         }
 
-        it("should be true when there is a horizontal match for \"X\"") {
+        it("should be true when there is a horizontal match for X") {
           val board = createBoardStateFromMoves(Vector(0, 4, 1, 5, 2))
 
           board.isWinner(X) should equal(true)
         }
 
-        it("should be true when there is a horizontal match for \"O\"") {
+        it("should be true when there is a horizontal match for O") {
           val board = createBoardStateFromMoves(Vector(0, 3, 7, 4, 2, 5))
 
           board.isWinner(O) should equal(true)
         }
 
-        it("should be true if there is a vertical match for \"X\"") {
+        it("should be true if there is a vertical match for X") {
           val board = createBoardStateFromMoves(Vector(0, 4, 3, 7, 6))
 
           board.isWinner(X) should equal(true)
         }
 
-        it("should be true if there is a vertical match for \"O\"") {
+        it("should be true if there is a vertical match for O") {
           val board = createBoardStateFromMoves(Vector(0, 2, 1, 5, 6, 8))
 
           board.isWinner(O) should equal(true)
         }
 
-        it("should be true if there is a left diagonal match for \"X\"") {
+        it("should be true if there is a left diagonal match for X") {
           val board = createBoardStateFromMoves(Vector(0, 2, 4, 3, 8))
 
           board.isWinner(X) should equal(true)
         }
 
-        it("should be true if there is a right diagonal match for \"O\"") {
+        it("should be true if there is a right diagonal match for O") {
           val board = createBoardStateFromMoves(Vector(0, 2, 1, 4, 5, 6))
 
           board.isWinner(O) should equal(true)
