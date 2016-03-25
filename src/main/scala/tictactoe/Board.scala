@@ -1,5 +1,12 @@
 package tictactoe
 
+object Board {
+
+  def apply(size: Int): Board = {
+    new Board(size, Vector.fill(size*size)(EMPTY))
+  }
+}
+
 case class Board(size: Int, state: IndexedSeq[Token]) {
 
   def play(move: Int) = new Board(size, state.updated(move, currentPlayerMark))
@@ -41,12 +48,3 @@ case class Board(size: Int, state: IndexedSeq[Token]) {
     if (state.isEmpty) seq else rightDiagonal(state.tail.map(_.dropRight(1)), seq :+ state.head.last)
   }
 }
-
-object Board {
-
-  def apply(size: Int): Board = {
-    new Board(size, Vector.fill(size*size)(EMPTY))
-  }
-}
-
-
