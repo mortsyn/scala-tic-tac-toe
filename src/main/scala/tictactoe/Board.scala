@@ -30,21 +30,21 @@ case class Board(size: Int, state: IndexedSeq[Token]) {
 
   private def getRows = state.grouped(size)
 
-  private def getColumns = for(columnIndex <- 0 until size) yield singleColumn(getRows.toIndexedSeq, columnIndex)
+  private def getColumns = {
+    def singleColumn[A](rows: IndexedSeq[IndexedSeq[A]], columnIndex: Int) = for(row <- rows) yield row(columnIndex)
 
-  private def singleColumn[A](rows: IndexedSeq[IndexedSeq[A]], columnIndex: Int) = {
-    for(row <- rows) yield row(columnIndex)
+    for(columnIndex <- 0 until size) yield singleColumn(getRows.toIndexedSeq, columnIndex)
   }
 
   private def diagonalSpots[A](state: IndexedSeq[IndexedSeq[A]]): IndexedSeq[IndexedSeq[A]] = {
-    Vector(leftDiagonal(state)) ++ Vector(rightDiagonal(state))
-  }
+    def leftDiagonal[A](state: IndexedSeq[IndexedSeq[A]], seq: IndexedSeq[A] = Vector()): IndexedSeq[A] = {
+      if (state.isEmpty) seq else leftDiagonal(state.tail.map(_.tail), seq :+ state.head.head)
+    }
 
-  private def leftDiagonal[A](state: IndexedSeq[IndexedSeq[A]], seq: IndexedSeq[A] = Vector()): IndexedSeq[A] = {
-    if (state.isEmpty) seq else leftDiagonal(state.tail.map(_.tail), seq :+ state.head.head)
-  }
+    def rightDiagonal[A](state: IndexedSeq[IndexedSeq[A]], seq: IndexedSeq[A] = Vector()): IndexedSeq[A]  = {
+      if (state.isEmpty) seq else rightDiagonal(state.tail.map(_.dropRight(1)), seq :+ state.head.last)
+    }
 
-  private def rightDiagonal[A](state: IndexedSeq[IndexedSeq[A]], seq: IndexedSeq[A] = Vector()): IndexedSeq[A] = {
-    if (state.isEmpty) seq else rightDiagonal(state.tail.map(_.dropRight(1)), seq :+ state.head.last)
+    Vector(leftDiagonal(state), rightDiagonal(state))
   }
 }
