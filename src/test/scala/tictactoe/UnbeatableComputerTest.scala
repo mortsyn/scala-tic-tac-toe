@@ -3,7 +3,7 @@ package tictactoe
 import org.scalatest.{Matchers, FunSpec}
 
 class UnbeatableComputerTest extends FunSpec with Matchers with BoardSpecHelper {
-  val computer = UnbeatableComputer
+  val computer = UnbeatableComputer(X)
 
   describe("unbeatable move generator") {
 
