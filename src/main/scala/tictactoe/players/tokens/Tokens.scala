@@ -1,4 +1,4 @@
-package tictactoe
+package tictactoe.players.tokens
 
 trait Token
 object X extends Token

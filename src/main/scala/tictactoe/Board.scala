@@ -1,5 +1,9 @@
 package tictactoe
 
+import tictactoe.players.Player
+import tictactoe.players.tokens.{EMPTY, O, X, Token}
+import tictactoe.strategies.Strategy
+
 object Board {
 
   def apply(size: Int, strategy: Strategy, players: (Player, Player)): Board = {
