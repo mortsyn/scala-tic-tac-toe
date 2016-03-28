@@ -9,4 +9,6 @@ case class Human(mark: Token, io: IO = IO()) extends Player {
       val move = io.nextInt
       if((board.state apply move) == EMPTY) move else getMove(board)
   }
+
+  override def toString = "Human (" + mark.toString() + ")"
 }

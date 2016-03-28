@@ -1,14 +1,20 @@
 package tictactoe.views
 
-import java.io.PrintStream
-
 import tictactoe.Board
+import tictactoe.players.Player
 
 case class SimpleView() extends BoardView {
 
-  override def format(board: Board, output: PrintStream): Unit = {
+  override def playerTurnText(currentPlayer: Player): String = "It's " + currentPlayer.toString + "'s turn..."
+
+  override def format(board: Board): String = {
+    val buffer = new StringBuilder
+
     board.state.grouped(board.size).foreach(row => {
-      output.println("| " + row.apply(0).toString + " | " + row.apply(1).toString + " | " + row.apply(2).toString + " |")
+      buffer.append("| " + row.apply(0).toString + " | " + row.apply(1).toString + " | " + row.apply(2).toString + " |\n")
     })
+    buffer.append("\n")
+
+    buffer.toString()
   }
 }

@@ -1,9 +1,10 @@
 package tictactoe.views
 
-import java.io.PrintStream
-
 import tictactoe.Board
+import tictactoe.players.Player
 
 trait BoardView {
-  def format(board: Board, output: PrintStream): Unit
+  def playerTurnText(currentPlayer: Player): String
+
+  def format(board: Board): String
 }
