@@ -3,6 +3,10 @@ package tictactoe
 import org.scalatest.{FunSpec, Matchers}
 import java.util.Scanner
 
+import tictactoe.players.tokens.{O, X}
+import tictactoe.players.{UnbeatableComputer, Human}
+import tictactoe.strategies.TicTacToe
+
 class IOTest extends FunSpec with Matchers {
 
   describe("input") {

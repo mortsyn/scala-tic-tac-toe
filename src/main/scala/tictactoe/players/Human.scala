@@ -1,4 +1,7 @@
-package tictactoe
+package tictactoe.players
+
+import tictactoe.players.tokens.{EMPTY, Token}
+import tictactoe.{Board, IO}
 
 case class Human(mark: Token, io: IO = IO()) extends Player {
 

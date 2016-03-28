@@ -1,5 +1,9 @@
 package tictactoe
 
+import tictactoe.players.tokens.{O, X}
+import tictactoe.players.{UnbeatableComputer, Human}
+import tictactoe.strategies.TicTacToe
+
 trait BoardSpecHelper {
 
   def createBoardStateFromMoves(moves: Vector[Int]) = {
