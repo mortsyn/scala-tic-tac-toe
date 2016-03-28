@@ -7,7 +7,7 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
   describe("a game board") {
 
     it("should be a vector of empty spaces with specified size^2") {
-      Board(3, TicTacToe).emptyIndexes.size should equal(9)
+      Board(3, TicTacToe, (Human(X), UnbeatableComputer(O))).emptyIndexes.size should equal(9)
     }
 
     it("can get the indexes of empty spaces") {
@@ -19,13 +19,13 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
     describe("making moves") {
 
       it("starting mark should be X") {
-        Board(3, TicTacToe).currentPlayerMark should equal(X)
+        Board(3, TicTacToe, (Human(X), UnbeatableComputer(O))).currentPlayerMark should equal(X)
       }
 
       it("should insert token X on odd moves") {
         val move = 2
 
-        Board(3, TicTacToe).play(move).state apply move should equal(X)
+        Board(3, TicTacToe, (Human(X), UnbeatableComputer(O))).play(move).state apply move should equal(X)
       }
 
       it("should insert token O on even moves") {

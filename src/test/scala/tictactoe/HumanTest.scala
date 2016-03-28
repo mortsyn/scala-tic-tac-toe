@@ -11,11 +11,11 @@ class HumanTest extends FunSpec with Matchers {
     it("should return us a move from input") {
       val human = Human(X, IO(new Scanner("1")))
 
-      human.getMove(Board(3, TicTacToe)) should equal(1)
+      human.getMove(Board(3, TicTacToe, (Human(X), UnbeatableComputer(O)))) should equal(1)
     }
 
     it("should not return moves that are currently on the board") {
-      val board = Board(3, TicTacToe).play(0)
+      val board = Board(3, TicTacToe, (Human(X), UnbeatableComputer(O))).play(0)
       val human = Human(X, IO(new Scanner("0 2")))
 
       human.getMove(board) should equal(2)

@@ -10,7 +10,7 @@ class TicTacToeTest extends FunSpec with Matchers with BoardSpecHelper {
     describe("matching a winning token with a board state") {
 
       it("should be false on a fresh board") {
-        val board = Board(3, TicTacToe)
+        val board = Board(3, TicTacToe, (Human(X), UnbeatableComputer(O)))
 
         strategy.winner(X, board) should equal(false)
       }
