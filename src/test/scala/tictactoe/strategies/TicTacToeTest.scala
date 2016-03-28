@@ -1,6 +1,9 @@
-package tictactoe
+package tictactoe.strategies
 
-import org.scalatest.{Matchers, FunSpec}
+import org.scalatest.{FunSpec, Matchers}
+import tictactoe.players.tokens.{O, X}
+import tictactoe.players.{Human, UnbeatableComputer}
+import tictactoe.{Board, BoardSpecHelper}
 
 class TicTacToeTest extends FunSpec with Matchers with BoardSpecHelper {
   val strategy = TicTacToe

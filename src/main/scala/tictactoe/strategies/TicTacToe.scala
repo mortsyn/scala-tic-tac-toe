@@ -1,4 +1,7 @@
-package tictactoe
+package tictactoe.strategies
+
+import tictactoe.Board
+import tictactoe.players.tokens.Token
 
 object TicTacToe extends Strategy {
 

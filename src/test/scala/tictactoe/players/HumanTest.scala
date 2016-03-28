@@ -1,8 +1,11 @@
-package tictactoe
+package tictactoe.players
 
 import java.util.Scanner
 
 import org.scalatest.{FunSpec, Matchers}
+import tictactoe.players.tokens.{O, X}
+import tictactoe.strategies.TicTacToe
+import tictactoe.{Board, IO}
 
 class HumanTest extends FunSpec with Matchers {
 

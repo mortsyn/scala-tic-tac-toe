@@ -1,4 +1,7 @@
-package tictactoe
+package tictactoe.players
+
+import tictactoe.players.tokens.{O, X, Token}
+import tictactoe.Board
 
 sealed trait Minimax {
 
