@@ -6,7 +6,7 @@ import tictactoe.{Board, IO}
 case class Human() extends Player with IO {
 
   override def getMove(board: Board): Int = {
-      val move = nextInt
-      if((board.state apply move) == EMPTY) move else getMove(board)
+    val move = this.nextInt
+    if((move < board.state.size && move >= 0) && (board.state(move) == EMPTY)) move else getMove(board)
   }
 }
