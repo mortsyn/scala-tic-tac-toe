@@ -5,7 +5,7 @@ import tictactoe.BoardSpecHelper
 import tictactoe.players.tokens.X
 
 class UnbeatableComputerTest extends FunSpec with Matchers with BoardSpecHelper {
-  val computer = UnbeatableComputer(X)
+  val computer = UnbeatableComputer()
 
   describe("unbeatable move generator") {
 

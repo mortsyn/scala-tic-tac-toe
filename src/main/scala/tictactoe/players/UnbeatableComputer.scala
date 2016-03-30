@@ -42,6 +42,6 @@ sealed trait Minimax {
   }
 }
 
-case class UnbeatableComputer(mark: Token) extends Player with Minimax {
+case class UnbeatableComputer() extends Player with Minimax {
   override def getMove(board: Board): Int = minimax(board.copy(), 0)
 }
