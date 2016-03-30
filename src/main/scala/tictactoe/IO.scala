@@ -1,9 +1,9 @@
 package tictactoe
-
-import java.io.PrintStream
 import java.util.Scanner
 
-case class IO(input: Scanner = new Scanner(System.in), output: PrintStream = System.out) {
+trait IO {
+  val input = new Scanner(System.in)
+  val output = System.out
 
   def nextInt: Int = {
     while (!input.hasNextInt()) {
