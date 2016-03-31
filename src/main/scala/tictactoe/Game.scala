@@ -7,6 +7,7 @@ import tictactoe.views.BoardView
 case class Game(players: (Player, Player), board: Board, view: BoardView) {
   var state = board
   view.printWelcomeMessage()
+  view.printInstructions()
   view.format(state)
 
   protected def currentPlayer = if (state.currentPlayerMark == X) players._1 else players._2

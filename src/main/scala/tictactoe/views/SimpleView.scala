@@ -7,6 +7,11 @@ object SimpleView extends BoardView {
 
   override def printWelcomeMessage(): Unit = output.println("Welcome to Tic Tac Toe! \n")
 
+  override def printInstructions(): Unit = {
+    output.println("Instructions for humans: When prompted, make a move ranging from 1 - 9")
+    output.println("As long as the move isn't empty or invalid, it will play the move on the board\n")
+  }
+
   override def currentTurn(currentPlayer: Player): Unit = currentPlayer match {
     case human: Human => output.println("Human player, choose a move:\n ")
     case computer: UnbeatableComputer => output.println("Computer is thinking...\n")

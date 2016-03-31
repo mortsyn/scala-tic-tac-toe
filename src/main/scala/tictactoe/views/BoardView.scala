@@ -8,6 +8,8 @@ trait BoardView {
 
   def printWelcomeMessage(): Unit
 
+  def printInstructions(): Unit
+
   def currentTurn(currentPlayer: Player): Unit
 
   def format(board: Board): Unit

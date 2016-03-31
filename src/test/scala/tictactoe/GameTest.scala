@@ -23,6 +23,14 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
       assert(stream.toString().contains("Welcome to Tic Tac Toe!"))
     }
 
+    it("prints the instructions on how to make a move as human") {
+      val game = Game((Human(), Human()), createBoardStateFromMoves(Vector()), SimpleView)
+      val expectedBoard = "Instructions for humans: When prompted, make a move ranging from 1 - 9\n" +
+                          "As long as the move isn't empty or invalid, it will play the move on the board"
+
+      assert(stream.toString().contains(expectedBoard))
+    }
+
     it("prints the empty board") {
       val game = Game((Human(), Human()), createBoardStateFromMoves(Vector()), SimpleView)
       val expectedBoard = "\n" +
