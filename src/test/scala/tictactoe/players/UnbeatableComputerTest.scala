@@ -10,21 +10,21 @@ class UnbeatableComputerTest extends FunSpec with Matchers with BoardSpecHelper 
   describe("unbeatable move generator") {
 
     it("should block the opponents move") {
-      val board = createBoardStateFromMoves(Vector(0, 2, 6))
-
-      computer.getMove(board) should equal(3)
-    }
-
-    it("should return the middle board spot if corner is taken") {
-      val board = createBoardStateFromMoves(Vector(0))
+      val board = createBoardStateFromMoves(Vector(1, 3, 7))
 
       computer.getMove(board) should equal(4)
     }
 
-    it("should make the smart move in tough situations") {
-      val board = createBoardStateFromMoves(Vector(1, 6, 5, 7, 8))
+    it("should return the middle board spot if corner is taken") {
+      val board = createBoardStateFromMoves(Vector(1))
 
-      computer.getMove(board) should equal(2)
+      computer.getMove(board) should equal(5)
+    }
+
+    it("should make the smart move in tough situations") {
+      val board = createBoardStateFromMoves(Vector(2, 7, 6, 8, 9))
+
+      computer.getMove(board) should equal(3)
     }
   }
 }

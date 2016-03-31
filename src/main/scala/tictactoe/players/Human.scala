@@ -6,6 +6,12 @@ import java.util.Scanner
 
 case class Human(input: Scanner = new Scanner(System.in)) extends Player {
 
+  override def getMove(board: Board): Int = {
+    val move = nextInt
+
+    if(isValid(board, move)) move else getMove(board)
+  }
+
   def nextInt: Int = {
     while (!input.hasNextInt()) {
       input.next()
@@ -14,8 +20,7 @@ case class Human(input: Scanner = new Scanner(System.in)) extends Player {
     return input.nextInt()
   }
 
-  override def getMove(board: Board): Int = {
-    val move = nextInt
-    if((move < board.state.size && move >= 0) && (board.state(move) == EMPTY)) move else getMove(board)
+  def isValid(board: Board, move: Int): Boolean = {
+    (move >= 1 && move <= board.state.size) && (board.emptyIndexes contains move)
   }
 }
