@@ -19,43 +19,43 @@ class TicTacToeTest extends FunSpec with Matchers with BoardSpecHelper {
       }
 
       it("should be false whenever the game is in progress") {
-        val board = createBoardStateFromMoves(Vector(0, 2, 5, 8))
+        val board = createBoardStateFromMoves(Vector(1, 3, 6, 9))
 
         strategy.winner(X, board) should equal(false)
       }
 
       it("should be true when there is a horizontal match for X") {
-        val board = createBoardStateFromMoves(Vector(0, 4, 1, 5, 2))
+        val board = createBoardStateFromMoves(Vector(1, 5, 2, 6, 3))
 
         strategy.winner(X, board) should equal(true)
       }
 
       it("should be true when there is a horizontal match for O") {
-        val board = createBoardStateFromMoves(Vector(0, 3, 7, 4, 2, 5))
+        val board = createBoardStateFromMoves(Vector(1, 4, 8, 5, 3, 6))
 
         strategy.winner(O, board) should equal(true)
       }
 
       it("should be true if there is a vertical match for X") {
-        val board = createBoardStateFromMoves(Vector(0, 4, 3, 7, 6))
+        val board = createBoardStateFromMoves(Vector(1, 5, 4, 6, 7))
 
         strategy.winner(X, board) should equal(true)
       }
 
       it("should be true if there is a vertical match for O") {
-        val board = createBoardStateFromMoves(Vector(0, 2, 1, 5, 6, 8))
+        val board = createBoardStateFromMoves(Vector(1, 3, 2, 6, 7, 9))
 
         strategy.winner(O, board) should equal(true)
       }
 
       it("should be true if there is a left diagonal match for X") {
-        val board = createBoardStateFromMoves(Vector(0, 2, 4, 3, 8))
+        val board = createBoardStateFromMoves(Vector(1, 3, 5, 4, 9))
 
         strategy.winner(X, board) should equal(true)
       }
 
       it("should be true if there is a right diagonal match for O") {
-        val board = createBoardStateFromMoves(Vector(0, 2, 1, 4, 5, 6))
+        val board = createBoardStateFromMoves(Vector(1, 3, 2, 5, 6, 7))
 
         strategy.winner(O, board) should equal(true)
       }
