@@ -17,21 +17,21 @@ class HumanTest extends FunSpec with Matchers {
     }
 
     it("should not return moves that are currently on the board") {
-      val human = Human(new Scanner("2 8"))
-      val board = Board(3, TicTacToe).play(0)
+      val human = Human(new Scanner("0 8"))
+      val board = Board(3, TicTacToe).play(1)
 
-      human.getMove(board) should equal(2)
+      human.getMove(board) should equal(8)
     }
 
     it("should not return moves that are not greater than the board size") {
       val human = Human(new Scanner("10 8 3 4"))
-      val board = Board(3, TicTacToe).play(0)
+      val board = Board(3, TicTacToe).play(1)
 
       human.getMove(board) should equal(8)
     }
 
     it("should ignore strings and other cruft") {
-      val board = Board(3, TicTacToe).play(0)
+      val board = Board(3, TicTacToe).play(1)
       val human = Human(new Scanner("asdf asdf sdfj 8"))
 
       human.getMove(board) should equal(8)

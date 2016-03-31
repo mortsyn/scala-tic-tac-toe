@@ -12,11 +12,11 @@ object Board {
 
 case class Board(size: Int, state: IndexedSeq[Token], strategy: Strategy) {
 
-  def play(move: Int) = new Board(size, state.updated(move, currentPlayerMark), strategy)
+  def play(move: Int) = new Board(size, state.updated(move-1, currentPlayerMark), strategy)
 
   def currentPlayerMark = if (state.filter(_ != EMPTY).length % 2 == 0) X else O
 
-  def emptyIndexes = state.zipWithIndex.filter(_._1 == EMPTY).map(_._2)
+  def emptyIndexes = state.zipWithIndex.filter(_._1 == EMPTY).map(_._2 + 1)
 
   def isComplete = isDraw || strategy.winner(X, this) || strategy.winner(O, this)
 

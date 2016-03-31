@@ -16,7 +16,7 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
     it("can get the indexes of empty spaces") {
       val board = createBoardStateFromMoves(Vector(2))
 
-      board.emptyIndexes should equal(IndexedSeq(0, 1, 3, 4, 5, 6, 7, 8))
+      board.emptyIndexes should equal(IndexedSeq(1, 3, 4, 5, 6, 7, 8, 9))
     }
 
     describe("making moves") {
@@ -28,32 +28,33 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
       it("should insert token X on odd moves") {
         val move = 2
 
-        Board(3, TicTacToe).play(move).state apply move should equal(X)
+        Board(3, TicTacToe).play(move).state apply move-1 should equal(X)
       }
 
       it("should insert token O on even moves") {
+        val move = 4
         val board = createBoardStateFromMoves(Vector(3, 4))
 
-        board.state apply 4 should equal(O)
+        board.state apply move-1 should equal(O)
       }
     }
 
     describe("end of game") {
 
       it("should be finished if the board is a draw") {
-        val board = createBoardStateFromMoves(Vector(0, 1, 2, 3, 5, 4, 6, 8, 7))
+        val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 7, 9, 8))
 
         assert(board.isComplete)
       }
 
       it("should be finished if X won") {
-        val board = createBoardStateFromMoves(Vector(0, 4, 1, 5, 2))
+        val board = createBoardStateFromMoves(Vector(1, 5, 2, 6, 3))
 
         assert(board.isComplete)
       }
 
       it("should be finished if O won") {
-        val board = createBoardStateFromMoves(Vector(0, 3, 7, 4, 2, 5))
+        val board = createBoardStateFromMoves(Vector(1, 4, 8, 5, 3, 6))
 
         assert(board.isComplete)
       }
