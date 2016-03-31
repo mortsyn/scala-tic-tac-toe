@@ -19,4 +19,13 @@ object SimpleView extends BoardView {
     output.println("")
   }
 
+  override def printEndOfGameMessage(winner: Option[Player]): Unit = winner match {
+    case Some(value) => endGameMessage(value)
+    case None => output.println("Game Over! Draw game")
+  }
+
+  def endGameMessage(player: Player): Unit = player match {
+    case human: Human => output.print("Game Over! Human wins!")
+    case computer: UnbeatableComputer =>  output.println("Game Over! Unbeatable Computer wins!")
+  }
 }

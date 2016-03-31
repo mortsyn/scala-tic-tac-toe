@@ -74,5 +74,32 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
 
       assert(stream.toString().contains(expectedBoard))
     }
+
+    it("prints end of game message for UnbeatableComputer") {
+      val game = Game((Human(new Scanner("0 3 5 2")), UnbeatableComputer()), createBoardStateFromMoves(Vector()), SimpleView)
+      val expectedBoard = "Game Over! Unbeatable Computer wins"
+
+      game.run()
+
+      assert(stream.toString().contains(expectedBoard))
+    }
+
+    it("prints end of game message for Human") {
+      val game = Game((Human(new Scanner("0 3 6 2")), Human(new Scanner("1 4 7 2"))), createBoardStateFromMoves(Vector()), SimpleView)
+      val expectedBoard = "Game Over! Human wins"
+
+      game.run()
+
+      assert(stream.toString().contains(expectedBoard))
+    }
+
+    it("prints end of game message for if a draw") {
+      val game = Game((Human(), Human()), createBoardStateFromMoves(Vector(0, 1, 2, 3, 5, 4, 6, 8, 7)), SimpleView)
+      val expectedBoard = "Game Over! Draw game"
+
+      game.run()
+
+      assert(stream.toString().contains(expectedBoard))
+    }
   }
 }

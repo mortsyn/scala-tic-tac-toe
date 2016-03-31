@@ -1,6 +1,5 @@
 package tictactoe
 
-import tictactoe.players.Player
 import tictactoe.players.tokens.{EMPTY, O, X, Token}
 import tictactoe.strategies.Strategy
 

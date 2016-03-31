@@ -11,4 +11,6 @@ trait BoardView {
   def currentTurn(currentPlayer: Player): Unit
 
   def format(board: Board): Unit
+
+  def printEndOfGameMessage(currentPlayer: Option[Player]): Unit
 }
