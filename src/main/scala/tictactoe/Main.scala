@@ -3,11 +3,11 @@ package tictactoe
 import tictactoe.players.{Player, UnbeatableComputer, Human}
 import tictactoe.strategies.TicTacToe
 
-import tictactoe.views.{BoardView, SimpleView}
+import tictactoe.views.{GameView, SimpleView}
 
 object Main {
 
-  def createNewGame(players: (Player, Player), view: BoardView): Game = {
+  def createNewGame(players: (Player, Player), view: GameView): Game = {
     new Game(players, Board(3, TicTacToe), view)
   }
 

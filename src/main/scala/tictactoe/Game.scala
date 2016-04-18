@@ -2,9 +2,9 @@ package tictactoe
 
 import tictactoe.players.Player
 import tictactoe.players.tokens.X
-import tictactoe.views.BoardView
+import tictactoe.views.GameView
 
-case class Game(players: (Player, Player), board: Board, view: BoardView) {
+case class Game(players: (Player, Player), board: Board, view: GameView) {
   var state = board
   view.printWelcomeMessage()
   view.printInstructions()

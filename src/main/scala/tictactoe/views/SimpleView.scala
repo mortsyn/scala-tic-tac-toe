@@ -3,7 +3,7 @@ package tictactoe.views
 import tictactoe.Board
 import tictactoe.players.{UnbeatableComputer, Human, Player}
 
-object SimpleView extends BoardView {
+object SimpleView extends GameView {
 
   override def printWelcomeMessage(): Unit = output.println("Welcome to Tic Tac Toe! \n")
 
