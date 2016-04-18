@@ -1,8 +1,7 @@
 package tictactoe
 
 import org.scalatest._
-import tictactoe.players.tokens.{O, X}
-import tictactoe.players.{UnbeatableComputer, Human}
+import tictactoe.players.tokens.{EMPTY, O, X}
 import tictactoe.strategies.TicTacToe
 
 class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
@@ -37,6 +36,29 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
 
         board.state apply move-1 should equal(O)
       }
+    }
+
+    it("includes the each row in the winning lines") {
+      val winningLines = createBoardStateFromMoves(Vector(1, 5, 9)).getWinningLines.toIndexedSeq
+
+      winningLines should contain (Vector(X, EMPTY, EMPTY))
+      winningLines should contain (Vector(EMPTY, O, EMPTY))
+      winningLines should contain (Vector(EMPTY, EMPTY, X))
+    }
+
+    it("includes the columns in the winning lines") {
+      val winningLines = createBoardStateFromMoves(Vector(1, 4, 7, 2, 5, 8, 3, 6, 9)).getWinningLines.toIndexedSeq
+
+      winningLines should contain (Vector(X, O, X))
+      winningLines should contain (Vector(O, X, O))
+      winningLines should contain (Vector(X, O, X))
+    }
+
+    it("includes the diagonal board spots in the winning lines") {
+      val winningLines = createBoardStateFromMoves(Vector(1, 5, 9, 3, 7)).getWinningLines.toIndexedSeq
+
+      winningLines should contain (Vector(X, O, X))
+      winningLines should contain (Vector(O, O, X))
     }
 
     describe("end of game") {
