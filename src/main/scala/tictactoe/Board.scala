@@ -1,27 +1,17 @@
 package tictactoe
 
-import tictactoe.strategies.Strategy
-
 object Board {
 
-  def apply(size: Int, strategy: Strategy): Board = {
-    new Board(size, Vector.fill(size*size)('_'), strategy)
+  def apply(size: Int): Board = {
+    new Board(size, Vector.fill(size*size)('_'))
   }
 }
 
-case class Board(size: Int, state: IndexedSeq[Char], strategy: Strategy) {
+case class Board(size: Int, state: IndexedSeq[Char]) {
 
-  def play(move: Int) = new Board(size, state.updated(move-1, currentPlayerMark), strategy)
-
-  def currentPlayerMark = if (state.filter(_ != '_').length % 2 == 0) 'X' else 'O'
+  def play(move: Int, token: Char) = new Board(size, state.updated(move-1, token))
 
   def emptyIndexes = state.zipWithIndex.filter(_._1 == '_').map(_._2 + 1)
-
-  def isComplete = isDraw || strategy.winner('X', this) || strategy.winner('O', this)
-
-  def isDraw = emptyIndexes.size == 0 && !(strategy.winner('X', this) || strategy.winner('O', this))
-
-  def isWinner(token: Char) = strategy.winner(token, this)
 
   def getWinningLines = getRows ++ getColumns ++ getDiagonals
 

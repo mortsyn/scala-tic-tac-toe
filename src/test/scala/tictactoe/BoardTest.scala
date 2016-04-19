@@ -1,14 +1,14 @@
 package tictactoe
 
 import org.scalatest._
-import tictactoe.strategies.TicTacToe
+import tictactoe.players.Human
 
 class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
 
   describe("a game board") {
 
     it("should be a vector of empty spaces with specified size^2") {
-      Board(3, TicTacToe).emptyIndexes.size should equal(9)
+      Board(3).emptyIndexes.size should equal(9)
     }
 
     it("can get the indexes of empty spaces") {
@@ -19,9 +19,10 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
 
     it("can insert moves on the board") {
       val move = 4
-      val board = createBoardStateFromMoves(Vector(3, 4))
+      val player = Human('X')
+      val board = Board(3).play(move, player.mark)
 
-      board.state apply move-1 should equal('O')
+      board.state apply move-1 should equal('X')
     }
 
     it("includes the each row in the winning lines") {
@@ -45,27 +46,6 @@ class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
 
       winningLines should contain (Vector('X', 'O', 'X'))
       winningLines should contain (Vector('O', 'O', 'X'))
-    }
-
-    describe("end of game") {
-
-      it("should be finished if the board is a draw") {
-        val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 7, 9, 8))
-
-        assert(board.isComplete)
-      }
-
-      it("should be finished if 'X' won") {
-        val board = createBoardStateFromMoves(Vector(1, 5, 2, 6, 3))
-
-        assert(board.isComplete)
-      }
-
-      it("should be finished if 'O' won") {
-        val board = createBoardStateFromMoves(Vector(1, 4, 8, 5, 3, 6))
-
-        assert(board.isComplete)
-      }
     }
   }
 }
