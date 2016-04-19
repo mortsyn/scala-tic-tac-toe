@@ -1,6 +1,5 @@
 package tictactoe.players
 
-import tictactoe.players.tokens.{O, X, Token}
 import tictactoe.Board
 
 sealed trait Minimax {
@@ -12,9 +11,9 @@ sealed trait Minimax {
   }
 
   private def scoreOf(state: Board, depth: Int) = {
-    if (state.isWinner(X)) {
+    if (state.isWinner('X')) {
       10 - depth
-    } else if (state.isWinner(O)) {
+    } else if (state.isWinner('O')) {
       depth - 10
     } else {
       0
@@ -26,7 +25,7 @@ sealed trait Minimax {
   }
 
   private def getBestScore(state: Board, scores: IndexedSeq[(Int, Int)]) = {
-    if(state.currentPlayerMark == X) {
+    if(state.currentPlayerMark == 'X') {
       scores.maxBy(_._2)
     } else {
       scores.minBy(_._2)

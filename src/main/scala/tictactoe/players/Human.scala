@@ -1,6 +1,5 @@
 package tictactoe.players
 
-import tictactoe.players.tokens.{EMPTY}
 import tictactoe.{Board}
 import java.util.Scanner
 

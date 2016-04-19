@@ -1,13 +1,12 @@
 package tictactoe.strategies
 
 import tictactoe.Board
-import tictactoe.players.tokens.Token
 
 object TicTacToe extends Strategy {
 
-  override def winner(token: Token, board: Board) = matchWinningSequence(token, findWinningSets(board))
+  override def winner(token: Char, board: Board) = matchWinningSequence(token, findWinningSets(board))
 
-  private def matchWinningSequence(token: Token, winningSet: Option[IndexedSeq[Token]]) = winningSet match {
+  private def matchWinningSequence(token: Char, winningSet: Option[IndexedSeq[Char]]) = winningSet match {
     case None => false
     case Some(value) => winningSet.get.apply(1) == token
   }
