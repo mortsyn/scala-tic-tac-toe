@@ -81,14 +81,26 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
 
       it("ignores any input that is more than 3") {
         val ui = new UI(new Scanner("4 3"))
+        val expectedOutput = "Invalid input, try again"
 
         ui.getGameMode should equal(3)
+        assert(stream.toString.contains(expectedOutput))
       }
 
       it("ignores any input that is less than 1") {
         val ui = new UI(new Scanner("0 1"))
+        val expectedOutput = "Invalid input, try again"
 
         ui.getGameMode should equal(1)
+        assert(stream.toString.contains(expectedOutput))
+      }
+
+      it("prints a 'bad string' message when random input is given") {
+        val ui = new UI(new Scanner("sadj df saf asdf 1"))
+        val expectedOutput = "Please do not input strings, try again"
+
+        ui.getGameMode should equal(1)
+        assert(stream.toString.contains(expectedOutput))
       }
     }
 
@@ -108,6 +120,14 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
 
         ui.getPlayerMove(game) should equal(1)
         assert(stream.toString.contains("Invalid input, try again"))
+      }
+
+      it("prints a 'bad string' message when random input is given") {
+        val ui = new UI(new Scanner("1df 1"))
+        val expectedOutput = "Please do not input strings, try again"
+
+        ui.getGameMode should equal(1)
+        assert(stream.toString.contains(expectedOutput))
       }
     }
   }

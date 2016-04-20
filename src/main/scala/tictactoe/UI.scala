@@ -44,7 +44,11 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
   }
 
   private def nextInt: Int = {
-    while (!input.hasNextInt()) input.next()
+    while (!input.hasNextInt()) {
+      printInvalidStringMessage
+      output.print("> ")
+      input.next()
+    }
 
     return input.nextInt()
   }
@@ -59,6 +63,8 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
   private def printWelcomeMessage = output.println("Welcome to Tic Tac Toe")
 
   private def printInvalidInputMessage = output.println("Invalid input, try again")
+
+  private def printInvalidStringMessage = output.println("\nPlease do not input strings, try again")
 
   private def isNewGame(board: Board): Boolean = board.emptyIndexes.size == board.state.size
 
