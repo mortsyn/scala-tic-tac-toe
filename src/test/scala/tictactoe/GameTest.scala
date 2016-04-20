@@ -43,6 +43,27 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
     }
   }
 
+  describe("valid moves") {
+
+    it("cannot be less than 0") {
+      val game = Game(new UI(new Scanner("x o 1")))
+
+      game.moveIsValid(0) should equal(false)
+    }
+
+    it("cannot be more than the boards size") {
+      val game = Game(new UI(new Scanner("x o 1")))
+
+      game.moveIsValid(10) should equal(false)
+    }
+
+    it("are false if the spot has already been taken") {
+      val game = Game(new UI(new Scanner("x o 1"))).makeMove(9)
+
+      game.moveIsValid(9) should equal(false)
+    }
+  }
+
   describe("game over") {
 
     it("should be false on a fresh board") {

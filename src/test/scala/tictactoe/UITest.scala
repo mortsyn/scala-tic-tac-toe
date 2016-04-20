@@ -4,6 +4,8 @@ import java.io.{PrintStream, ByteArrayOutputStream}
 import org.scalatest.{BeforeAndAfter, Matchers, FunSpec}
 import java.util.Scanner
 
+import tictactoe.players.Human
+
 class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAfter {
   var stream = new ByteArrayOutputStream()
 
@@ -43,7 +45,7 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
       }
 
       it("prints out the filled spaces as a token") {
-        val ui = new UI(new Scanner(""))
+        val ui = new UI(new Scanner(""), new PrintStream(stream))
         val board = createBoardStateFromMoves(Vector(1, 2))
         val expectedBoard = "| X | O | 3 |" + "\n" +
                             "| 4 | 5 | 6 |" + "\n" +
@@ -87,6 +89,25 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
         val ui = new UI(new Scanner("0 1"))
 
         ui.getGameMode should equal(1)
+      }
+    }
+
+    describe("getting user input") {
+
+      it("prompts for players a human players move") {
+        val ui = new UI(new Scanner("1"))
+        val game = Game((Human(X), Human(O)), createBoardStateFromMoves(Vector()))
+
+        ui.getPlayerMove(game) should equal(1)
+        assert(stream.toString.contains("Human, choose a move: "))
+      }
+
+      it("ignores moves that are not valid") {
+        val ui = new UI(new Scanner("0 1"))
+        val game = Game((Human(X), Human(O)), createBoardStateFromMoves(Vector()))
+
+        ui.getPlayerMove(game) should equal(1)
+        assert(stream.toString.contains("Invalid input, try again"))
       }
     }
   }

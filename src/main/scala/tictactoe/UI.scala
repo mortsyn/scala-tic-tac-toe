@@ -6,6 +6,19 @@ import tictactoe.players.Player
 
 class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.out) {
 
+  def promptUserMove = output.print("Human, choose a move: ")
+
+  def getPlayerMove(game: Game): Int = {
+    promptUserMove
+    val input = nextInt
+    if (game.moveIsValid(input)) {
+      input
+    } else {
+      printInvalidInputMessage
+      getPlayerMove(game)
+    }
+  }
+
   def getGameMode: Int = {
     promptGameMode
     val input = nextInt
