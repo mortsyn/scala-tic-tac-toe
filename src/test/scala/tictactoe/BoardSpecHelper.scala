@@ -3,8 +3,8 @@ package tictactoe
 import tictactoe.players.{Human, Player}
 
 trait BoardSpecHelper {
-  val player1 = Human(X)
-  val player2 = Human(O)
+  var player1: Player = Human(X)
+  var player2: Player = Human(O)
 
   def getOtherMark(board: Board): Player = if (board.emptyIndexes.length % 2 == 0) player2 else player1
 

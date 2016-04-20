@@ -30,9 +30,23 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
     }
   }
 
-  def update(board: Board) = {
-    if (isNewGame(board)) printWelcomeMessage
-    print(board)
+
+  def printGameOverMessage(game: Game) = {
+    output.print("Game Over!")
+    output.print(" ")
+    if (game.isGameWinner(game.players._1)) {
+      printWinnerMessage(game.players._1)
+    } else if (game.isGameWinner(game.players._2)) {
+      printWinnerMessage(game.players._2)
+    } else {
+      output.println("Draw game!")
+    }
+  }
+
+  def update(game: Game) = {
+    if (isNewGame(game.board)) printWelcomeMessage
+    if (game.isOver) printGameOverMessage(game)
+    print(game.board)
   }
 
   private def print(board: Board) ={
@@ -65,6 +79,8 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
   private def printInvalidInputMessage = output.println("Invalid input, try again")
 
   private def printInvalidStringMessage = output.println("\nPlease do not input strings, try again")
+
+  private def printWinnerMessage(winner: Player) = output.println(winner.toString + " " + "(token " + winner.mark + ") wins!")
 
   private def isNewGame(board: Board): Boolean = board.emptyIndexes.size == board.state.size
 

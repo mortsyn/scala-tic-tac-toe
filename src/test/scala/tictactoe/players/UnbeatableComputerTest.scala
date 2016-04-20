@@ -7,6 +7,9 @@ class UnbeatableComputerTest extends FunSpec with Matchers with BoardSpecHelper 
   val computer = UnbeatableComputer(O)
 
   describe("unbeatable move generator") {
+    it("can be represented as a string") {
+      computer.toString should equal("UnbeatableComputer Player")
+    }
 
     it("should block the opponents move") {
       val board = createBoardStateFromMoves(Vector(1, 3, 7))
