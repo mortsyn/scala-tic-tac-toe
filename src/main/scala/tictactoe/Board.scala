@@ -1,17 +1,19 @@
 package tictactoe
 
+import tictactoe.players.Player
+
 object Board {
 
   def apply(size: Int): Board = {
-    new Board(size, Vector.fill(size*size)('_'))
+    new Board(size, Vector.fill(size*size)(None))
   }
 }
 
-case class Board(size: Int, state: IndexedSeq[Char]) {
+case class Board(size: Int, state: IndexedSeq[Option[Player]]) {
 
-  def play(move: Int, token: Char) = new Board(size, state.updated(move-1, token))
+  def play(move: Int, player: Player) = new Board(size, state.updated(move-1, Some(player)))
 
-  def emptyIndexes = state.zipWithIndex.filter(_._1 == '_').map(_._2 + 1)
+  def emptyIndexes = state.zipWithIndex.filter(_._1 == None).map(_._2 + 1)
 
   def getWinningLines = getRows ++ getColumns ++ getDiagonals
 

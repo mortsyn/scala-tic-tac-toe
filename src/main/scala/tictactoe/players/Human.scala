@@ -1,10 +1,10 @@
 package tictactoe.players
 
-import tictactoe.{Board}
+import tictactoe.Token
 
-case class Human(mark: Char) extends Player {
+case class Human(mark: Token) extends Player {
 
-  def isValid(board: Board, move: Int): Boolean = {
-    (move >= 1 && move <= board.state.size) && (board.emptyIndexes contains move)
+  override def toString: String = {
+    "Human Player"
   }
 }

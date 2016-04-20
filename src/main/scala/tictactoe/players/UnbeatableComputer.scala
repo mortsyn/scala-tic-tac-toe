@@ -1,6 +1,6 @@
 package tictactoe.players
 
-import tictactoe.{Game}
+import tictactoe.{Token, Game}
 
 sealed trait Minimax {
 
@@ -11,9 +11,9 @@ sealed trait Minimax {
   }
 
   private def scoreOf(state: Game, depth: Int) = {
-    if (state.isGameWinner(state.players._1.mark)) {
+    if (state.isGameWinner(state.players._1)) {
       10 - depth
-    } else if (state.isGameWinner(state.players._2.mark)) {
+    } else if (state.isGameWinner(state.players._2)) {
       depth - 10
     } else {
       0
@@ -41,6 +41,6 @@ sealed trait Minimax {
   }
 }
 
-case class UnbeatableComputer(mark: Char) extends Player with Minimax {
+case class UnbeatableComputer(mark: Token) extends Player with Minimax {
   def getMove(game: Game): Int = minimax(game.copy(), 0)
 }

@@ -1,8 +1,12 @@
 package tictactoe
 
-trait BoardSpecHelper {
+import tictactoe.players.{Human, Player}
 
-  def getOtherMark(board: Board): Char = if(board.state.filter(_ == '_').length % 2 == 0) 'O' else 'X'
+trait BoardSpecHelper {
+  val player1 = Human(X)
+  val player2 = Human(O)
+
+  def getOtherMark(board: Board): Player = if (board.emptyIndexes.length % 2 == 0) player2 else player1
 
   def createBoardStateFromMoves(moves: Vector[Int]) = {
     var board = Board(3)

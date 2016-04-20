@@ -9,6 +9,7 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
 
   before {
     stream = new ByteArrayOutputStream()
+    stream.reset()
     System.setOut(new PrintStream(stream))
   }
 
@@ -86,33 +87,6 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
         val ui = new UI(new Scanner("0 1"))
 
         ui.getGameMode should equal(1)
-      }
-    }
-
-    describe("asking for player tokens") {
-
-      it("is prompted to the user") {
-        val ui = new UI(new Scanner("x"))
-        val expectedOutput = "Please choose a letter from a-z as your token: "
-
-        ui.getPlayerToken
-
-        assert(stream.toString.contains(expectedOutput))
-      }
-
-      it("prompts the user with an error message when there is bad input") {
-        val ui = new UI(new Scanner("0 3 a"))
-        val expectedOutput = "Invalid input, try again"
-
-        ui.getPlayerToken
-
-        assert(stream.toString.contains(expectedOutput))
-      }
-
-      it("returns the first non-character input in uppercase") {
-        val ui = new UI(new Scanner("1 3 x"))
-
-        ui.getPlayerToken should equal('X')
       }
     }
   }
