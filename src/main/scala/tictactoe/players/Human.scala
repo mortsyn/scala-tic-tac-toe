@@ -1,10 +1,7 @@
 package tictactoe.players
 
-import tictactoe.Token
+import tictactoe.{UI, Game, Token}
 
-case class Human(mark: Token) extends Player {
-
-  override def toString: String = {
-    "Human Player"
-  }
+case class Human(mark: Token, ui: UI = new UI()) extends Player {
+  override def getMove(game: Game): Int = ui.getPlayerMove(game)
 }

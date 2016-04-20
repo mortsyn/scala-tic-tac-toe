@@ -1,16 +1,19 @@
 package tictactoe.players
 
+import java.util.Scanner
 import org.scalatest.{FunSpec, Matchers}
-import tictactoe.X
+import tictactoe._
 
 class HumanTest extends FunSpec with Matchers {
 
   describe("a human player") {
 
-    it("should have a mark represented as a string") {
-      val human = Human(X)
+    it("returns a valid board move") {
+      val ui = new UI(new Scanner("1 5"))
+      val game = Game(ui)
+      val human = Human(X, ui)
 
-      human.toString() should equal("Human Player")
+      human.getMove(game) should equal(5)
     }
   }
 }
