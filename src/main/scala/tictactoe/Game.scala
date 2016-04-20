@@ -29,9 +29,9 @@ case class Game(players: (Player, Player), board: Board) {
 
   def isGameWinner(player: Player): Boolean = matchWinningSequence(player, findWinningSets(board))
 
-  private def isInRange(move: Int) = (move > 0 && move < board.state.size)
+  private def isInRange(move: Int) = (move > 0 && move <= board.state.size)
 
-  private def isEmptySpace(move: Int): Boolean = board.state.apply(move) == None
+  private def isEmptySpace(move: Int): Boolean = board.state.apply(move-1) == None
 
   private def matchWinningSequence(player: Player, winningSet: Option[IndexedSeq[Option[Player]]]) = winningSet match {
     case (Some(Vector(None, None, None)) | None) => false

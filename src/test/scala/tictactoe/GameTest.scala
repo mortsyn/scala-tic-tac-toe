@@ -10,7 +10,7 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
   describe("building a game from user input") {
 
     it("creates a human vs human game if the game mode is 1") {
-      val game = Game(new UI(new Scanner("x o 1")))
+      val game = Game(new UI(new Scanner("1")))
 
       game.players._1 shouldBe a [Human]
       game.players._2 shouldBe a [Human]
@@ -19,14 +19,14 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
     }
 
     it("creates a human vs computer game if the game mode is 2") {
-      val game = Game(new UI(new Scanner("x o 2")))
+      val game = Game(new UI(new Scanner("2")))
 
       game.players._1 shouldBe a [Human]
       game.players._2 shouldBe a [UnbeatableComputer]
     }
 
     it("creates a computer vs computer game if the game mode is 3") {
-      val game = Game(new UI(new Scanner("x o 3")))
+      val game = Game(new UI(new Scanner("3")))
 
       game.players._1 shouldBe a [UnbeatableComputer]
       game.players._2 shouldBe a [UnbeatableComputer]
@@ -36,7 +36,7 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
   describe("making moves") {
 
     it("changes the current player") {
-      val game = Game(new UI(new Scanner("x o 1"))).makeMove(1)
+      val game = Game(new UI(new Scanner("1"))).makeMove(1)
 
       game.activePlayer should not be theSameInstanceAs(game.players._1)
       game.board.state apply 0 should equal(Some(game.players._1))
@@ -44,21 +44,28 @@ class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAnd
   }
 
   describe("valid moves") {
+    
+    it("is true if the spot hasn't been taken") {
+      val game = Game(new UI(new Scanner("1")))
+
+      game.moveIsValid(9) should equal(true)
+      game.moveIsValid(1) should equal(true)
+    }
 
     it("cannot be less than 0") {
-      val game = Game(new UI(new Scanner("x o 1")))
+      val game = Game(new UI(new Scanner("1")))
 
       game.moveIsValid(0) should equal(false)
     }
 
     it("cannot be more than the boards size") {
-      val game = Game(new UI(new Scanner("x o 1")))
+      val game = Game(new UI(new Scanner("1")))
 
       game.moveIsValid(10) should equal(false)
     }
 
     it("are false if the spot has already been taken") {
-      val game = Game(new UI(new Scanner("x o 1"))).makeMove(9)
+      val game = Game(new UI(new Scanner("1"))).makeMove(9)
 
       game.moveIsValid(9) should equal(false)
     }
