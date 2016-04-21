@@ -4,7 +4,11 @@ import java.io.{PrintStream, ByteArrayOutputStream}
 import java.util.Scanner
 
 import org.scalatest.{BeforeAndAfter, FunSpec}
+import tictactoe.io.UI
+import tictactoe.game.Game
 import tictactoe.players.{Human, UnbeatableComputer}
+import tictactoe.spec_helper.BoardSpecHelper
+import tictactoe.tokens.{O, X}
 
 class MainTest extends FunSpec with BeforeAndAfter with BoardSpecHelper {
   val stream = new ByteArrayOutputStream()

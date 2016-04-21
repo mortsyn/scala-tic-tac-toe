@@ -1,10 +1,13 @@
-package tictactoe
+package tictactoe.io
 
-import java.io.{PrintStream, ByteArrayOutputStream}
-import org.scalatest.{BeforeAndAfter, Matchers, FunSpec}
+import java.io.{ByteArrayOutputStream, PrintStream}
 import java.util.Scanner
 
-import tictactoe.players.{UnbeatableComputer, Human}
+import org.scalatest.{BeforeAndAfter, FunSpec, Matchers}
+import tictactoe.game.Game
+import tictactoe.players.{Human, UnbeatableComputer}
+import tictactoe.spec_helper.BoardSpecHelper
+import tictactoe.tokens.{O, X}
 
 class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAfter {
   var stream = new ByteArrayOutputStream()

@@ -1,6 +1,8 @@
-package tictactoe
+package tictactoe.spec_helper
 
+import tictactoe.board.Board
 import tictactoe.players.{Human, Player}
+import tictactoe.tokens.{O, X}
 
 trait BoardSpecHelper {
   var player1: Player = Human(X)

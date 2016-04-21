@@ -1,9 +1,12 @@
-package tictactoe
+package tictactoe.game
 
-import org.scalatest.{BeforeAndAfter, FunSpec, Matchers}
 import java.util.Scanner
 
-import tictactoe.players.{UnbeatableComputer, Human}
+import org.scalatest.{BeforeAndAfter, FunSpec, Matchers}
+import tictactoe.board.Board
+import tictactoe.io.UI
+import tictactoe.players.{Human, UnbeatableComputer}
+import tictactoe.spec_helper.BoardSpecHelper
 
 class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAfter {
 

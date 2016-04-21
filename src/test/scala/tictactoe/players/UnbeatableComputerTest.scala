@@ -1,7 +1,9 @@
 package tictactoe.players
 
 import org.scalatest.{FunSpec, Matchers}
-import tictactoe.{O, Game, BoardSpecHelper}
+import tictactoe.game.Game
+import tictactoe.spec_helper.BoardSpecHelper
+import tictactoe.tokens.O
 
 class UnbeatableComputerTest extends FunSpec with Matchers with BoardSpecHelper {
   val computer = UnbeatableComputer(O)

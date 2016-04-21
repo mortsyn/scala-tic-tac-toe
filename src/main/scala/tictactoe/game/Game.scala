@@ -1,6 +1,9 @@
-package tictactoe
+package tictactoe.game
 
+import tictactoe.io.UI
+import tictactoe.board.Board
 import tictactoe.players._
+import tictactoe.tokens.{O, X}
 
 object Game {
 
