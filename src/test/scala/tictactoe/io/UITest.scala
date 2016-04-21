@@ -14,7 +14,6 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
 
   before {
     stream = new ByteArrayOutputStream()
-    stream.reset()
     System.setOut(new PrintStream(stream))
   }
 
