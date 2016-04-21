@@ -1,5 +1,8 @@
 package tictactoe
 
+import tictactoe.io.UI
+import tictactoe.game.Game
+
 object Main {
 
   def main(args: Array[String]): Unit = {

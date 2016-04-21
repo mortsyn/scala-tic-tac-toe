@@ -1,6 +1,7 @@
 package tictactoe.players
 
-import tictactoe.{Game, Token}
+import tictactoe.game.Game
+import tictactoe.tokens.Token
 
 trait Player {
   def mark: Token

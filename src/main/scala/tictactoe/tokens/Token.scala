@@ -1,4 +1,4 @@
-package tictactoe
+package tictactoe.tokens
 
 sealed trait Token
 

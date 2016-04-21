@@ -2,7 +2,10 @@ package tictactoe.players
 
 import java.util.Scanner
 import org.scalatest.{FunSpec, Matchers}
+import tictactoe.io.UI
 import tictactoe._
+import tictactoe.game.Game
+import tictactoe.tokens.X
 
 class HumanTest extends FunSpec with Matchers {
 

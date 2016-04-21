@@ -1,8 +1,11 @@
-package tictactoe
+package tictactoe.io
 
 import java.io.PrintStream
 import java.util.Scanner
-import tictactoe.players.{UnbeatableComputer, Player}
+
+import tictactoe.board.Board
+import tictactoe.game.Game
+import tictactoe.players.{Player, UnbeatableComputer}
 
 class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.out) {
 

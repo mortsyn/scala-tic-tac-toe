@@ -1,7 +1,9 @@
-package tictactoe
+package tictactoe.board
 
 import org.scalatest._
 import tictactoe.players.Human
+import tictactoe.spec_helper.BoardSpecHelper
+import tictactoe.tokens.X
 
 class BoardTest extends FunSpec with Matchers with BoardSpecHelper {
 
