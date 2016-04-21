@@ -2,11 +2,9 @@ package tictactoe
 
 import java.io.PrintStream
 import java.util.Scanner
-import tictactoe.players.Player
+import tictactoe.players.{UnbeatableComputer, Player}
 
 class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.out) {
-
-  def promptUserMove = output.print("Human, choose a move: ")
 
   def getPlayerMove(game: Game): Int = {
     promptUserMove
@@ -32,7 +30,7 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
 
 
   def printGameOverMessage(game: Game) = {
-    output.print("Game Over!")
+    output.print("\nGame Over!")
     output.print(" ")
     if (game.isGameWinner(game.players._1)) {
       printWinnerMessage(game.players._1)
@@ -47,9 +45,11 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
     if (isNewGame(game.board)) printWelcomeMessage
     if (game.isOver) printGameOverMessage(game)
     print(game.board)
+    if (!game.isOver && game.activePlayer.isInstanceOf[UnbeatableComputer]) printMessageForComputerTurn
   }
 
   private def print(board: Board) ={
+    output.println("")
     board.state.zipWithIndex.foreach(spaceWithIndex => {
       output.print("| " + getCellText(spaceWithIndex) + " ")
       if (isLastInRow(board, spaceWithIndex)) output.print("|\n")
@@ -68,13 +68,18 @@ class UI(input: Scanner = new Scanner(System.in), output: PrintStream = System.o
   }
 
   private def promptGameMode = {
-    output.println("Choose a game mode:\n" +
+    output.print("Choose a game mode:\n" +
       "1. Human vs Human\n" +
       "2. Human vs Computer\n" +
-      "3. Computer vs Computer\n")
+      "3. Computer vs Computer\n" +
+      "> ")
   }
 
   private def printWelcomeMessage = output.println("Welcome to Tic Tac Toe")
+
+  private def promptUserMove = output.print("Human, choose a move: ")
+
+  private def printMessageForComputerTurn = output.println("Computer thinking...")
 
   private def printInvalidInputMessage = output.println("Invalid input, try again")
 

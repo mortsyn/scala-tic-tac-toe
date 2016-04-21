@@ -126,6 +126,28 @@ class UITest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAf
         assert(stream.toString.contains(expectedBoard))
         assert(stream.toString.contains(gameOverMessage))
       }
+
+      it("prints out a message when it's the computer players turn") {
+        player2 = UnbeatableComputer(O)
+        val ui = new UI(new Scanner(""))
+        val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 5))
+        val game = Game((player1, player2), board)
+
+        ui.update(game)
+
+        assert(stream.toString.contains("Computer thinking..."))
+      }
+
+      it("does not print the computer players turn when the game is over") {
+        player2 = UnbeatableComputer(O)
+        val ui = new UI(new Scanner(""))
+        val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 5, 6, 7))
+        val game = Game((player1, player2), board)
+
+        ui.update(game)
+
+        assert(stream.toString.contains("Computer thinking...") == false)
+      }
     }
 
     describe("game mode input") {
