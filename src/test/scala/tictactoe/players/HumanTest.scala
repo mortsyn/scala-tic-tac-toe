@@ -1,40 +1,27 @@
 package tictactoe.players
 
 import java.util.Scanner
-
 import org.scalatest.{FunSpec, Matchers}
-import tictactoe.strategies.TicTacToe
-import tictactoe.{Board}
+import tictactoe._
 
 class HumanTest extends FunSpec with Matchers {
 
   describe("a human player") {
 
-    it("should return us a move from input") {
-      val human = Human(new Scanner("1 2 8"))
+    it("returns a valid board move") {
+      val ui = new UI(new Scanner("1 5"))
+      val game = Game(ui)
+      val human = Human(X, ui)
 
-      human.getMove(Board(3, TicTacToe)) should equal(1)
+      human.getMove(game) should equal(5)
     }
 
-    it("should not return moves that are currently on the board") {
-      val human = Human(new Scanner("0 8"))
-      val board = Board(3, TicTacToe).play(1)
+    it("can be represented as a string") {
+      val ui = new UI(new Scanner("1 5"))
+      val game = Game(ui)
+      val human = Human(X, ui)
 
-      human.getMove(board) should equal(8)
-    }
-
-    it("should not return moves that are not greater than the board size") {
-      val human = Human(new Scanner("10 8 3 4"))
-      val board = Board(3, TicTacToe).play(1)
-
-      human.getMove(board) should equal(8)
-    }
-
-    it("should ignore strings and other cruft") {
-      val board = Board(3, TicTacToe).play(1)
-      val human = Human(new Scanner("asdf asdf sdfj 8"))
-
-      human.getMove(board) should equal(8)
+      human.toString should equal("Human Player")
     }
   }
 }

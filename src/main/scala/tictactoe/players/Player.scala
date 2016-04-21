@@ -1,7 +1,8 @@
 package tictactoe.players
 
-import tictactoe.Board
+import tictactoe.{Game, Token}
 
 trait Player {
-  def getMove(board: Board): Int
+  def mark: Token
+  def getMove(game: Game): Int
 }

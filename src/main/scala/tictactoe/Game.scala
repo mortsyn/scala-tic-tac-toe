@@ -1,35 +1,44 @@
 package tictactoe
 
-import tictactoe.players.Player
-import tictactoe.players.tokens.X
-import tictactoe.views.GameView
+import tictactoe.players._
 
-case class Game(players: (Player, Player), board: Board, view: GameView) {
-  var state = board
-  view.printWelcomeMessage()
-  view.printInstructions()
-  view.format(state)
+object Game {
 
-  protected def currentPlayer = if (state.currentPlayerMark == X) players._1 else players._2
-
-  protected def winningPlayer: Option[Player] = {
-    if (state.isDraw) {
-      return None
-    } else if(currentPlayer == players._1) {
-      Some(players._2)
-    } else {
-      Some(players._1)
-    }
+  def apply(ui: UI = new UI()): Game = {
+    createGame(ui.getGameMode)
   }
 
-  def run(): Unit = {
-    while(!state.isComplete) {
-      view.currentTurn(currentPlayer)
-      val move = currentPlayer.getMove(state)
-      state = state.play(move)
-      view.format(state)
-    }
-
-    view.printEndOfGameMessage(winningPlayer)
+  private def createGame(gameMode: Int) = gameMode match {
+    case 1 => new Game((Human(X), Human(O)), Board(3))
+    case 2 => new Game((Human(X), UnbeatableComputer(O)), Board(3))
+    case 3 => new Game((UnbeatableComputer(X), UnbeatableComputer(O)), Board(3))
   }
+}
+
+case class Game(players: (Player, Player), board: Board) {
+
+  def makeMove(index: Int) = new Game(players, board.play(index, activePlayer))
+
+  def moveIsValid(move: Int): Boolean = isInRange(move) && isEmptySpace(move)
+
+  def activePlayer = if (evenNumberOfTurns) players._2 else players._1
+
+  def isOver = isDraw || isGameWinner(players._1) || isGameWinner(players._2)
+
+  def isDraw = board.emptyIndexes.isEmpty && !(isGameWinner(players._1) || isGameWinner(players._2))
+
+  def isGameWinner(player: Player): Boolean = matchWinningSequence(player, findWinningSets(board))
+
+  private def isInRange(move: Int) = move > 0 && move <= board.state.size
+
+  private def isEmptySpace(move: Int): Boolean = board.state.apply(move-1).isEmpty
+
+  private def matchWinningSequence(player: Player, winningSet: Option[IndexedSeq[Option[Player]]]) = winningSet match {
+    case (Some(Vector(None, None, None)) | None) => false
+    case Some(Vector(Some(_), Some(_), Some(_))) => winningSet.get.contains(Some(player))
+  }
+
+  private def findWinningSets(board: Board) = board.getWinningLines.toIndexedSeq.find(_.toSet.size == 1)
+
+  private def evenNumberOfTurns: Boolean = board.emptyIndexes.length % 2 == 0
 }

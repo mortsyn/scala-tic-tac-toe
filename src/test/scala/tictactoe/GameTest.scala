@@ -1,113 +1,163 @@
 package tictactoe
 
-import java.io.{PrintStream, ByteArrayOutputStream}
 import org.scalatest.{BeforeAndAfter, FunSpec, Matchers}
-import tictactoe.players.{UnbeatableComputer, Human}
 import java.util.Scanner
 
-import tictactoe.views.{SimpleView}
+import tictactoe.players.{UnbeatableComputer, Human}
 
 class GameTest extends FunSpec with Matchers with BoardSpecHelper with BeforeAndAfter {
-  val stream = new ByteArrayOutputStream()
-  System.setOut(new PrintStream(stream))
 
-  after {
-    stream.reset()
+  describe("building a game from user input") {
+
+    it("creates a human vs human game if the game mode is 1") {
+      val game = Game(new UI(new Scanner("1")))
+
+      game.players._1 shouldBe a [Human]
+      game.players._2 shouldBe a [Human]
+      game.activePlayer should be theSameInstanceAs(game.players._1)
+      game.board.emptyIndexes.size should equal(9)
+    }
+
+    it("creates a human vs computer game if the game mode is 2") {
+      val game = Game(new UI(new Scanner("2")))
+
+      game.players._1 shouldBe a [Human]
+      game.players._2 shouldBe a [UnbeatableComputer]
+    }
+
+    it("creates a computer vs computer game if the game mode is 3") {
+      val game = Game(new UI(new Scanner("3")))
+
+      game.players._1 shouldBe a [UnbeatableComputer]
+      game.players._2 shouldBe a [UnbeatableComputer]
+    }
   }
 
-  describe("a game") {
+  describe("making moves") {
 
-    it("should print a welcome message") {
-      val game = Game((Human(), Human()), createBoardStateFromMoves(Vector()), SimpleView)
+    it("changes the current player") {
+      val game = Game(new UI(new Scanner("1"))).makeMove(1)
 
-      assert(stream.toString().contains("Welcome to Tic Tac Toe!"))
+      game.activePlayer should not be theSameInstanceAs(game.players._1)
+      game.board.state apply 0 should equal(Some(game.players._1))
+    }
+  }
+
+  describe("valid moves") {
+    
+    it("is true if the spot hasn't been taken") {
+      val game = Game(new UI(new Scanner("1")))
+
+      game.moveIsValid(9) should equal(true)
+      game.moveIsValid(1) should equal(true)
     }
 
-    it("prints the instructions on how to make a move as human") {
-      val game = Game((Human(), Human()), createBoardStateFromMoves(Vector()), SimpleView)
-      val expectedBoard = "Instructions for humans: When prompted, make a move ranging from 1 - 9\n" +
-                          "As long as the move isn't empty or invalid, it will play the move on the board"
+    it("cannot be less than 0") {
+      val game = Game(new UI(new Scanner("1")))
 
-      assert(stream.toString().contains(expectedBoard))
+      game.moveIsValid(0) should equal(false)
     }
 
-    it("prints the empty board") {
-      val game = Game((Human(), Human()), createBoardStateFromMoves(Vector()), SimpleView)
-      val expectedBoard = "\n" +
-                          "| _ | _ | _ |" + "\n" +
-                          "| _ | _ | _ |" + "\n" +
-                          "| _ | _ | _ |" + "\n" + "\n"
+    it("cannot be more than the boards size") {
+      val game = Game(new UI(new Scanner("1")))
 
-      assert(stream.toString().contains(expectedBoard))
+      game.moveIsValid(10) should equal(false)
     }
 
-    it("takes input from human player") {
-      val game = Game((Human(new Scanner("8 4")), UnbeatableComputer()), createBoardStateFromMoves(Vector(2, 3, 5, 6)), SimpleView)
-      val expectedBoard = "\n" +
-                          "| _ | X | O |" + "\n" +
-                          "| _ | X | O |" + "\n" +
-                          "| _ | X | _ |" + "\n" + "\n"
+    it("are false if the spot has already been taken") {
+      val game = Game(new UI(new Scanner("1"))).makeMove(9)
 
-      game.run()
+      game.moveIsValid(9) should equal(false)
+    }
+  }
 
-      assert(stream.toString().contains(expectedBoard))
+  describe("game over") {
+
+    it("should be false on a fresh board") {
+      val board = Board(3)
+      val game = Game((player1, player2), board)
+
+      game.isOver should equal(false)
     }
 
-    it("takes switches turns and computer player takes turn automatically") {
-      val game = Game((Human(new Scanner("1 4 6 3")), UnbeatableComputer()), createBoardStateFromMoves(Vector()), SimpleView)
-      val expectedBoard = "\n" +
-                          "| X | _ | _ |" + "\n" +
-                          "| _ | O | _ |" + "\n" +
-                          "| _ | _ | _ |" + "\n" + "\n"
+    it("should be false whenever the game is in progress") {
+      val board = createBoardStateFromMoves(Vector(1, 3, 6, 9))
+      val game = Game((player1, player2), board)
 
-      game.run()
-
-      assert(stream.toString().contains(expectedBoard))
+      game.isOver should equal(false)
     }
 
-    it("prints a prompt for the human player") {
-      val game = Game((Human(new Scanner("7")), Human()), createBoardStateFromMoves(Vector(1, 2, 4, 5)), SimpleView)
-      val expectedBoard = "Human player, choose a move:"
+    it("should be true when there is a horizontal match for X") {
+      val board = createBoardStateFromMoves(Vector(1, 5, 2, 6, 3))
+      val game = Game((player1, player2), board)
 
-      game.run()
-
-      assert(stream.toString().contains(expectedBoard))
+      game.isOver should equal(true)
     }
 
-    it("prints a prompt for the computer player") {
-      val game = Game((Human(new Scanner("6")), UnbeatableComputer()), createBoardStateFromMoves(Vector(1, 2, 4, 5)), SimpleView)
-      val expectedBoard = "Computer is thinking..."
+    it("should be true when there is a horizontal match for O") {
+      val board = createBoardStateFromMoves(Vector(1, 4, 8, 5, 3, 6))
+      val game = Game((player1, player2), board)
 
-      game.run()
-
-      assert(stream.toString().contains(expectedBoard))
+      game.isOver should equal(true)
     }
 
-    it("prints end of game message for UnbeatableComputer") {
-      val game = Game((Human(new Scanner("1 4 6 3")), UnbeatableComputer()), createBoardStateFromMoves(Vector()), SimpleView)
-      val expectedBoard = "Game Over! Unbeatable Computer wins"
+    it("should be true if there is a vertical match for X") {
+      val board = createBoardStateFromMoves(Vector(1, 5, 4, 6, 7))
+      val game = Game((player1, player2), board)
 
-      game.run()
-
-      assert(stream.toString().contains(expectedBoard))
+      game.isOver should equal(true)
     }
 
-    it("prints end of game message for Human") {
-      val game = Game((Human(new Scanner("1 4 7 3")), Human(new Scanner("2 5 8 3"))), createBoardStateFromMoves(Vector()), SimpleView)
-      val expectedBoard = "Game Over! Human wins"
+    it("should be true if there is a vertical match for O") {
+      val board = createBoardStateFromMoves(Vector(1, 3, 2, 6, 7, 9))
+      val game = Game((player1, player2), board)
 
-      game.run()
-
-      assert(stream.toString().contains(expectedBoard))
+      game.isOver should equal(true)
     }
 
-    it("prints end of game message for if a draw") {
-      val game = Game((Human(), Human()), createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 7, 9, 8)), SimpleView)
-      val expectedBoard = "Game Over! Draw game"
+    it("should be true if there is a left diagonal match for X") {
+      val board = createBoardStateFromMoves(Vector(1, 3, 5, 4, 9))
+      val game = Game((player1, player2), board)
 
-      game.run()
+      game.isOver should equal(true)
+    }
 
-      assert(stream.toString().contains(expectedBoard))
+    it("should be true if there is a right diagonal match for O") {
+      val board = createBoardStateFromMoves(Vector(1, 3, 2, 5, 6, 7))
+      val game = Game((player1, player2), board)
+
+      game.isOver should equal(true)
+    }
+
+    it("should be true if the game is a draw") {
+      val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 7, 9, 8))
+      val game = Game((player1, player2), board)
+
+      assert(game.isOver)
+    }
+  }
+
+  describe("draw game") {
+
+    it("should be true if the game is board is full") {
+      val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 7, 9, 8))
+      val game = Game((player1, player2), board)
+
+      assert(game.isDraw)
+    }
+
+    it("should be false if the game is full but X won") {
+      val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 8, 7, 9))
+      val game = Game((player1, player2), board)
+
+      game.isDraw should equal(false)
+    }
+
+    it("should be false if the game O won") {
+      val board = createBoardStateFromMoves(Vector(1, 2, 3, 4, 6, 5, 7, 8))
+      val game = Game((player1, player2), board)
+
+      game.isDraw should equal(false)
     }
   }
 }

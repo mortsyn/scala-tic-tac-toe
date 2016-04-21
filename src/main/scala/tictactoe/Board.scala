@@ -1,28 +1,19 @@
 package tictactoe
 
-import tictactoe.players.tokens.{EMPTY, O, X, Token}
-import tictactoe.strategies.Strategy
+import tictactoe.players.Player
 
 object Board {
 
-  def apply(size: Int, strategy: Strategy): Board = {
-    new Board(size, Vector.fill(size*size)(EMPTY), strategy)
+  def apply(size: Int): Board = {
+    new Board(size, Vector.fill(size*size)(None))
   }
 }
 
-case class Board(size: Int, state: IndexedSeq[Token], strategy: Strategy) {
+case class Board(size: Int, state: IndexedSeq[Option[Player]]) {
 
-  def play(move: Int) = new Board(size, state.updated(move-1, currentPlayerMark), strategy)
+  def play(move: Int, player: Player) = new Board(size, state.updated(move-1, Some(player)))
 
-  def currentPlayerMark = if (state.filter(_ != EMPTY).length % 2 == 0) X else O
-
-  def emptyIndexes = state.zipWithIndex.filter(_._1 == EMPTY).map(_._2 + 1)
-
-  def isComplete = isDraw || strategy.winner(X, this) || strategy.winner(O, this)
-
-  def isDraw = emptyIndexes.size == 0 && !(strategy.winner(X, this) || strategy.winner(O, this))
-
-  def isWinner(token: Token) = strategy.winner(token, this)
+  def emptyIndexes = state.zipWithIndex.filter(_._1 == None).map(_._2 + 1)
 
   def getWinningLines = getRows ++ getColumns ++ getDiagonals
 
@@ -35,11 +26,11 @@ case class Board(size: Int, state: IndexedSeq[Token], strategy: Strategy) {
   }
 
   def getDiagonals = {
-    def leftDiagonal[Token](state: IndexedSeq[IndexedSeq[Token]], seq: IndexedSeq[Token] = Vector()): IndexedSeq[Token] = {
+    def leftDiagonal[Char](state: IndexedSeq[IndexedSeq[Char]], seq: IndexedSeq[Char] = Vector()): IndexedSeq[Char] = {
       if (state.isEmpty) seq else leftDiagonal(state.tail.map(_.tail), seq :+ state.head.head)
     }
 
-    def rightDiagonal[Token](state: IndexedSeq[IndexedSeq[Token]], seq: IndexedSeq[Token] = Vector()): IndexedSeq[Token] = {
+    def rightDiagonal[Char](state: IndexedSeq[IndexedSeq[Char]], seq: IndexedSeq[Char] = Vector()): IndexedSeq[Char] = {
       if (state.isEmpty) seq else rightDiagonal(state.tail.map(_.dropRight(1)), seq :+ state.head.last)
     }
 
